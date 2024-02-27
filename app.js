@@ -6,10 +6,6 @@ const fs = require('fs');
 const events = require('events');
 const readline = require('readline');
 
-//csv column indexes
-//const _TYPE = 2
-const _ALERT_SEVERITY = 5;
-
 //joining path of directory 
 const directoryPath = path.join(__dirname, './data_files');
 
@@ -57,7 +53,7 @@ async function processFile(fileName) {
         //split the line by comma so we can filter for keywords
 
         let array = line.split(",");
-        if (array[_ALERT_SEVERITY] === 'NOT_CONFIGURED') {
+        if (array[process.env.CSV_COLUMN_TO_FILTER] === process.env.CSV_VALUE_TO_FILTER) {
             //get account from filename
             const account = fileName.split("_")[2].split(".")[0];
 
