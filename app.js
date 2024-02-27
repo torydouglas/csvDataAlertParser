@@ -10,7 +10,7 @@ const readline = require('readline');
 const directoryPath = path.join(__dirname, './data_files');
 
 //setup output file
-const outputFilename = "./output_files/filteredData.csv";
+const outputFilename = `./output_files/${process.env.OUTPUT_FILE_NAME}`;
 const writableStream = fs.createWriteStream(outputFilename, { flags: 'w' });
 
 
@@ -20,7 +20,7 @@ const writableStream = fs.createWriteStream(outputFilename, { flags: 'w' });
 function app() {
 
     //write header column names (1st line) to output csv file
-    writableStream.write('accountName, idname, common name, type, size(GB/day), conditioncnt, alertseverity, queries(1 wk) ' + os.EOL);
+    writableStream.write(`${process.env.CSV_OUTPUT_HEADER_ROW}${os.EOL}`);
 
     //read the directory and get list of files
     fs.readdir(directoryPath, function (err, files) {
@@ -55,8 +55,14 @@ async function processFile(fileName) {
         let array = line.split(",");
         if (array[process.env.CSV_COLUMN_TO_FILTER] === process.env.CSV_VALUE_TO_FILTER) {
             //get account from filename
-            const account = fileName.split("_")[2].split(".")[0];
-
+            let account;
+            try {
+                account = fileName.split("_")[2].split(".")[0];
+            }
+            catch (err) {
+                console.log('You will need to change this processFile section of code to match your use case. I had it pulling an account name out based on format of the file name and appending that to the first column of the output file.');
+                throw err;
+            }
             //write account number plus original line from file plus os specific end of line character
             writableStream.write(account + ',' + line + os.EOL);
         }
