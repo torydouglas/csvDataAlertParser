@@ -5,10 +5,12 @@ This is a simple internal tool designed to read a directory of .csv files, check
 ## Usage
 
 1. **Setup**:
+
    - Place your .csv files in the "data_files" directory.
-   - Ensure you have Node.js installed on your system.
+   - Ensure you have Node.js installed on your system. I used v21.6.2 for this code
 
 2. **Run the Tool**:
+
    - Open your terminal or command prompt.
    - Navigate to the project directory.
    - Run the following command:
